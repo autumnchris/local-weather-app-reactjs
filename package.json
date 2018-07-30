@@ -1,0 +1,21 @@
+{
+  "name": "local-weather-app-react",
+  "version": "1.0.0",
+  "description": "My project for the Show the Local Weather challenge as part of the curriculum for the Coding Interview Take Home Projects on Free Code Camp. Built with React.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack -p",
+    "start": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/autumnchris/local-weather-app-react.git"
+  },
+  "author": "autumnchris",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/autumnchris/local-weather-app-react/issues"
+  },
+  "homepage": "https://autumnchris.github.io/local-weather-app-react"
+}
