@@ -10,8 +10,16 @@ export default class App extends Component {
         lat: null,
         lng: null
       },
-      location: ''
+      location: '',
+      tempType: 'F',
+      current: {
+        temp: '',
+        weather: ''
+      }
     };
+    this.currentF = null;
+    this.currentC = null;
+
     this.getSuccess = this.getSuccess.bind(this);
     this.getError = this.getError.bind(this);
     this.fetchGeocodingAPI = this.fetchGeocodingAPI.bind(this);
@@ -38,9 +46,17 @@ export default class App extends Component {
 
     axios.all([this.fetchGeocodingAPI(), this.fetchweatherAPI()])
       .then(axios.spread((geocodingData, weatherData) => {
+        this.currentF = Math.round(weatherData.currently.temperature);
+        this.currentC = Math.round((weatherData.currently.temperature - 32) * (5/9));
+
         this.setState({
-          location: geocodingData.data.results[0].address_components[3].long_name
+          location: geocodingData.data.results[0].address_components[3].long_name,
+          current: {
+            temp: this.currentF,
+            weather: weatherData.currently.summary
+          }
         });
+        console.log(weatherData);
       })).catch((err) => {
         console.log(err);
       });
@@ -66,6 +82,8 @@ export default class App extends Component {
             <div className="col">
               {/* CURRENT WEATHER */}
               <div className="location">{this.state.location}</div>
+              <div className="temp">{this.state.current.temp}&deg;{this.state.tempType}</div>
+              <div className="weather">{this.state.current.weather}</div>
             </div>
           </div>
         </main>
