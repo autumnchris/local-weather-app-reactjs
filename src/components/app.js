@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios-jsonp-pro';
 
 export default class App extends Component {
 
@@ -14,6 +15,16 @@ export default class App extends Component {
     this.getError = this.getError.bind(this);
   }
 
+  fetchGeocodingAPI() {
+    const geocodingAPIKey = 'AIzaSyDF-M0gmMFMWJ2zO0tfKNs8Y0zbRUJaACA';
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.coords.lat},${this.state.coords.lng}&key=${geocodingAPIKey}`);
+  }
+
+  fetchweatherAPI() {
+    const weatherAPIKey = '6e76605e3f2672147d041fcb0df33e81';
+    return axios.jsonp(`https://api.darksky.net/forecast/${weatherAPIKey}/${this.state.coords.lat},${this.state.coords.lng}`);
+  }
+
   getSuccess(position) {
     this.setState({
       coords: {
@@ -21,6 +32,14 @@ export default class App extends Component {
         lng: position.coords.longitude
       }
     });
+
+    axios.all([this.fetchGeocodingAPI(), this.fetchweatherAPI()])
+      .then(axios.spread((geocodingData, weatherData) => {
+        console.log(geocodingData);
+        console.log(weatherData);
+      })).catch((err) => {
+        console.log(err);
+      });
   }
 
   getError(err) {
