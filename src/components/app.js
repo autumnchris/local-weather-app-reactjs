@@ -9,7 +9,8 @@ export default class App extends Component {
       coords: {
         lat: null,
         lng: null
-      }
+      },
+      location: ''
     };
     this.getSuccess = this.getSuccess.bind(this);
     this.getError = this.getError.bind(this);
@@ -37,8 +38,9 @@ export default class App extends Component {
 
     axios.all([this.fetchGeocodingAPI(), this.fetchweatherAPI()])
       .then(axios.spread((geocodingData, weatherData) => {
-        console.log(geocodingData);
-        console.log(weatherData);
+        this.setState({
+          location: geocodingData.data.results[0].address_components[3].long_name
+        });
       })).catch((err) => {
         console.log(err);
       });
@@ -59,6 +61,14 @@ export default class App extends Component {
         <header>
           <h1>View your local weather</h1>
         </header>
+        <main>
+          <div className="card">
+            <div className="col">
+              {/* CURRENT WEATHER */}
+              <div className="location">{this.state.location}</div>
+            </div>
+          </div>
+        </main>
         {/* FOOTER */}
         <footer>
           <span>Coded by <a href="../portfolio" target="_blank">Autumn Bullard</a></span>
