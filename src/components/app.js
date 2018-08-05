@@ -13,6 +13,8 @@ export default class App extends Component {
     };
     this.getSuccess = this.getSuccess.bind(this);
     this.getError = this.getError.bind(this);
+    this.fetchGeocodingAPI = this.fetchGeocodingAPI.bind(this);
+    this.fetchweatherAPI = this.fetchweatherAPI.bind(this);
   }
 
   fetchGeocodingAPI() {
