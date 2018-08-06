@@ -1,0 +1,42 @@
+$dark-blue: #004966;
+$med-blue: #006e99;
+$link-color: #ffff80;
+
+html {
+  background: $dark-blue;
+  h1 {
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    padding: 6% 0;
+    @media only screen and (min-width: 550px) {
+      font-size: 1.4rem;
+      padding: 6% 0 3%;
+    }
+  }
+  footer {
+    background: $med-blue;
+    bottom: 0;
+    font-size: 0.6rem;
+    left: 0;
+    padding: 14px 0;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    @media only screen and (min-width: 550px) {
+      font-size: 0.8rem;
+    }
+    span {
+      margin: 0 6px;
+      @media only screen and (min-width: 550px) {
+        margin: 0 10px;
+      }
+      a,
+      a:visited,
+      a:hover,
+      a:active,
+      a:focus {
+        color: $link-color;
+      }
+    }
+  }
+}
