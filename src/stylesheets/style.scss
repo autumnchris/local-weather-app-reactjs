@@ -13,6 +13,20 @@ html {
       padding: 6% 0 3%;
     }
   }
+  main {
+    padding-bottom: 80px;
+    .card {
+      background: $med-blue;
+      display: grid;
+      grid-template-columns: 100%;
+      margin: auto;
+      max-width: 1000px;
+      padding: 30px 20px;
+      @media only screen and (min-width: 900px) {
+        grid-template-columns: 50% 50%;
+      }
+    }
+  }
   footer {
     background: $med-blue;
     bottom: 0;
