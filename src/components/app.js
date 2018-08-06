@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HourlyForecast from './hourly-forecast';
+import DailyForecast from './daily-forecast';
 import axios from 'axios-jsonp-pro';
 
 export default class App extends Component {
@@ -19,6 +20,9 @@ export default class App extends Component {
         weather: ''
       },
       hourly: {
+        forecast: []
+      },
+      daily: {
         forecast: []
       }
     };
@@ -63,6 +67,9 @@ export default class App extends Component {
           },
           hourly: {
             forecast: weatherData.hourly.data
+          },
+          daily: {
+            forecast: weatherData.daily.data
           }
         });
         console.log(weatherData);
@@ -97,6 +104,7 @@ export default class App extends Component {
             </div>
             <div className="col">
               <HourlyForecast hours={this.state.hourly.forecast} />
+              <DailyForecast days={this.state.daily.forecast} />
             </div>
           </div>
         </main>
