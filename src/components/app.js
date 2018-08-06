@@ -14,6 +14,7 @@ export default class App extends Component {
       tempType: 'F',
       current: {
         temp: '',
+        icon: '',
         weather: ''
       }
     };
@@ -53,6 +54,7 @@ export default class App extends Component {
           location: geocodingData.data.results[0].address_components[3].long_name,
           current: {
             temp: this.currentF,
+            icon: `wi wi-forecast-io-${weatherData.currently.icon}`,
             weather: weatherData.currently.summary
           }
         });
@@ -83,6 +85,7 @@ export default class App extends Component {
               {/* CURRENT WEATHER */}
               <div className="location">{this.state.location}</div>
               <div className="temp">{this.state.current.temp}&deg;{this.state.tempType}</div>
+              <div className={`${this.state.current.icon} weather-icon`}></div>
               <div className="weather">{this.state.current.weather}</div>
             </div>
           </div>
