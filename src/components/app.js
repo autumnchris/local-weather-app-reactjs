@@ -8,23 +8,20 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      coords: {
-        lat: null,
-        lng: null
-      },
+      lat: null,
+      lng: null,
       location: '',
       tempType: 'F',
-      current: {
-        temp: '',
-        icon: '',
-        weather: ''
-      },
-      hourly: {
-        forecast: []
-      },
-      daily: {
-        forecast: []
-      }
+      currentTemp: '',
+      currentWeatherIcon: '',
+      currentWeather: '',
+      buttonClass: 'switch',
+      hourlyForecast: [],
+      dailyForecast: [],
+      hourlyFTempStyle: {display: 'inline'},
+      hourlyCTempStyle: {display: 'none'},
+      dailyFTempStyle: {display: 'inline'},
+      dailyCTempStyle: {display: 'none'}
     };
     this.currentF = null;
     this.currentC = null;
@@ -33,24 +30,23 @@ export default class App extends Component {
     this.getError = this.getError.bind(this);
     this.fetchGeocodingAPI = this.fetchGeocodingAPI.bind(this);
     this.fetchweatherAPI = this.fetchweatherAPI.bind(this);
+    this.changeTempType = this.changeTempType.bind(this);
   }
 
   fetchGeocodingAPI() {
     const geocodingAPIKey = 'AIzaSyDF-M0gmMFMWJ2zO0tfKNs8Y0zbRUJaACA';
-    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.coords.lat},${this.state.coords.lng}&key=${geocodingAPIKey}`);
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.lat},${this.state.lng}&key=${geocodingAPIKey}`);
   }
 
   fetchweatherAPI() {
     const weatherAPIKey = '6e76605e3f2672147d041fcb0df33e81';
-    return axios.jsonp(`https://api.darksky.net/forecast/${weatherAPIKey}/${this.state.coords.lat},${this.state.coords.lng}`);
+    return axios.jsonp(`https://api.darksky.net/forecast/${weatherAPIKey}/${this.state.lat},${this.state.lng}`);
   }
 
   getSuccess(position) {
     this.setState({
-      coords: {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      }
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
     });
 
     axios.all([this.fetchGeocodingAPI(), this.fetchweatherAPI()])
@@ -60,17 +56,11 @@ export default class App extends Component {
 
         this.setState({
           location: geocodingData.data.results[0].address_components[3].long_name,
-          current: {
-            temp: this.currentF,
-            icon: `wi wi-forecast-io-${weatherData.currently.icon}`,
-            weather: weatherData.currently.summary
-          },
-          hourly: {
-            forecast: weatherData.hourly.data
-          },
-          daily: {
-            forecast: weatherData.daily.data
-          }
+          currentTemp: this.currentF,
+          currentWeatherIcon: `wi wi-forecast-io-${weatherData.currently.icon}`,
+          currentWeather: weatherData.currently.summary,
+          hourlyForecast: weatherData.hourly.data,
+          dailyForecast: weatherData.daily.data
         });
         console.log(weatherData);
       })).catch((err) => {
@@ -86,6 +76,32 @@ export default class App extends Component {
     navigator.geolocation.getCurrentPosition(this.getSuccess, this.getError);
   }
 
+  changeTempType() {
+
+    if (this.state.tempType === 'F') {
+      this.setState({
+        tempType: 'C',
+        currentTemp: this.currentC,
+        buttonClass: 'switch celsius',
+        hourlyFTempStyle: {display: 'none'},
+        hourlyCTempStyle: {display: 'inline'},
+        dailyFTempStyle: {display: 'none'},
+        dailyCTempStyle: {display: 'inline'}
+      });
+    }
+    else {
+      this.setState({
+        tempType: 'F',
+        currentTemp: this.currentF,
+        buttonClass: 'switch fahrenheit',
+        hourlyFTempStyle: {display: 'inline'},
+        hourlyCTempStyle: {display: 'none'},
+        dailyFTempStyle: {display: 'inline'},
+        dailyCTempStyle: {display: 'none'}
+      });
+    }
+  }
+
   render() {
     return (
       <div className="body">
@@ -98,13 +114,17 @@ export default class App extends Component {
             <div className="col">
               {/* CURRENT WEATHER */}
               <div className="location">{this.state.location}</div>
-              <div className="temp">{this.state.current.temp}&deg;{this.state.tempType}</div>
-              <div className={`${this.state.current.icon} weather-icon`}></div>
-              <div className="weather">{this.state.current.weather}</div>
+              <div className="temp">{this.state.currentTemp}&deg;{this.state.tempType}</div>
+              <div className={`${this.state.currentWeatherIcon} weather-icon`}></div>
+              <div className="weather">{this.state.currentWeather}</div>
+              {/* BUTTON */}
+              <button type="button" className={this.state.buttonClass} onClick={() => this.changeTempType()}>&deg;{this.state.tempType}</button>
             </div>
             <div className="col">
-              <HourlyForecast hours={this.state.hourly.forecast} />
-              <DailyForecast days={this.state.daily.forecast} />
+              {/* HOURLY FORECAST */}
+              <HourlyForecast hours={this.state.hourlyForecast} fTempStyle={this.state.hourlyFTempStyle} cTempStyle={this.state.hourlyCTempStyle} />
+              {/* FIVE-DAY FORECAST */}
+              <DailyForecast days={this.state.dailyForecast} fTempStyle={this.state.dailyFTempStyle} cTempStyle={this.state.dailyCTempStyle} />
             </div>
           </div>
         </main>

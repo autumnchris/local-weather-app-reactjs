@@ -1,12 +1,12 @@
 import React from 'react';
 import Hour from './hour';
 
-const HourlyForecast = ({ hours }) => {
+const HourlyForecast = ({ hours, fTempStyle, cTempStyle }) => {
 
   const Hours = hours.map((hour, index) => {
 
     while(index < 24) {
-      return <Hour key={index} hour={hour} />;
+      return <Hour key={index} hour={hour} fTempStyle={fTempStyle} cTempStyle={cTempStyle} />;
     }
   });
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import Day from './day';
 
-const DailyForecast = ({ days }) => {
+const DailyForecast = ({ days, fTempStyle, cTempStyle }) => {
 
   const Days = days.map((day, index) => {
 
     while(index < 5) {
-      return <Day key={index} day={day} />;
+      return <Day key={index} day={day} fTempStyle={fTempStyle} cTempStyle={cTempStyle} />;
     }
   });
 
