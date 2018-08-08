@@ -66,7 +66,7 @@ export default class App extends Component {
           hourlyForecast: weatherData.hourly.data,
           dailyForecast: weatherData.daily.data,
           spinnerStyle: {display: 'none'},
-          resultStyle: {display: 'block'}
+          resultStyle: {display: 'grid'}
         });
       })).catch(() => {
         this.setState({
