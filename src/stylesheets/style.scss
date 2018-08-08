@@ -36,8 +36,25 @@ html {
       @media only screen and (min-width: 980px) {
         grid-template-columns: 50% 50%;
       }
+      .location {
+        font-size: 1rem;
+        text-shadow: 1px 1px 1px $dark-blue;
+      }
+      .temp {
+        font-size: 4.5rem;
+        margin-top: 25px;
+        text-shadow: 2px 2px 1px $dark-blue;
+      }
       .weather-icon {
         font-family: "Weather Icons";
+        font-size: 3.5rem;
+        margin-top: 25px;
+        text-shadow: 2px 2px 1px $dark-blue;
+      }
+      .weather {
+        font-size: 1rem;
+        margin-top: 25px;
+        text-shadow: 1px 1px 1px $dark-blue;
       }
       .switch {
         background: $dark-blue;
