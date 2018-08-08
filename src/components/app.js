@@ -18,8 +18,10 @@ export default class App extends Component {
       buttonClass: 'switch',
       hourlyForecast: [],
       dailyForecast: [],
+      errorMessage: '',
       spinnerStyle: {display: 'block'},
       resultStyle: {display: 'none'},
+      errorStyle: {display: 'none'},
       hourlyFTempStyle: {display: 'inline'},
       hourlyCTempStyle: {display: 'none'},
       dailyFTempStyle: {display: 'inline'},
@@ -66,13 +68,21 @@ export default class App extends Component {
           spinnerStyle: {display: 'none'},
           resultStyle: {display: 'block'}
         });
-      })).catch((err) => {
-        console.log(err);
+      })).catch(() => {
+        this.setState({
+          errorMessage: 'Unable to load current weather.',
+          spinnerStyle: {display: 'none'},
+          errorStyle: {display: 'block'}
+        });
       });
   }
 
   getError(err) {
-    console.log(err);
+    this.setState({
+      errorMessage: `${err.message}.`,
+      spinnerStyle: {display: 'none'},
+      errorStyle: {display: 'block'}
+    });
   }
 
   componentDidMount() {
@@ -134,6 +144,8 @@ export default class App extends Component {
               <DailyForecast days={this.state.dailyForecast} fTempStyle={this.state.dailyFTempStyle} cTempStyle={this.state.dailyCTempStyle} />
             </div>
           </div>
+          {/* ERROR MESSAGE */}
+          <p className="error-message" style={this.state.errorStyle}><span className="fa fa-exclamation-triangle fa-lg fa-fw"></span> {this.state.errorMessage}</p>
         </main>
         {/* FOOTER */}
         <footer>
