@@ -26,6 +26,9 @@ html {
   }
   main {
     padding-bottom: 80px;
+    .spinner {
+      padding-top: 40px;
+    }
     .card {
       background: $med-blue;
       display: grid;

@@ -18,6 +18,8 @@ export default class App extends Component {
       buttonClass: 'switch',
       hourlyForecast: [],
       dailyForecast: [],
+      spinnerStyle: {display: 'block'},
+      resultStyle: {display: 'none'},
       hourlyFTempStyle: {display: 'inline'},
       hourlyCTempStyle: {display: 'none'},
       dailyFTempStyle: {display: 'inline'},
@@ -60,9 +62,10 @@ export default class App extends Component {
           currentWeatherIcon: `wi wi-forecast-io-${weatherData.currently.icon}`,
           currentWeather: weatherData.currently.summary,
           hourlyForecast: weatherData.hourly.data,
-          dailyForecast: weatherData.daily.data
+          dailyForecast: weatherData.daily.data,
+          spinnerStyle: {display: 'none'},
+          resultStyle: {display: 'block'}
         });
-        console.log(weatherData);
       })).catch((err) => {
         console.log(err);
       });
@@ -110,7 +113,11 @@ export default class App extends Component {
           <h1>View your local weather</h1>
         </header>
         <main>
-          <div className="card">
+          {/* LOADING SPINNER */}
+          <div className="spinner" style={this.state.spinnerStyle}>
+            <span className="fa fa-sync-alt fa-spin fa-3x fa-fw" aria-label="Loading..."></span>
+          </div>
+          <div className="card" style={this.state.resultStyle}>
             <div className="col">
               {/* CURRENT WEATHER */}
               <div className="location">{this.state.location}</div>
