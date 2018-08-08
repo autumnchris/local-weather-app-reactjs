@@ -27,20 +27,74 @@ html {
       margin: auto;
       max-width: 1000px;
       padding: 30px 20px;
-      @media only screen and (min-width: 900px) {
+      @media only screen and (min-width: 980px) {
         grid-template-columns: 50% 50%;
       }
       .weather-icon {
         font-family: "Weather Icons";
       }
+      table {
+        margin: auto;
+        width: 215px;
+        @media only screen and (min-width: 350px) {
+          width: 285px;
+        }
+        @media only screen and (min-width: 550px) {
+          width: 440px;
+        }
+      }
       .hourly-forecast {
-        td:nth-child(2) {
-          font-family: "Weather Icons";
+        background: $dark-blue;
+        display: flex;
+        margin-bottom: 20px;
+        tbody {
+          overflow-x: auto;
+          position: relative;
+          tr {
+            display: table-cell;
+            padding: 18px;
+            td {
+              display: table-row;
+              line-height: 25px;
+              @media only screen and (min-width: 550px) {
+                font-size: 0.7rem;
+              }
+            }
+            .wi {
+              font-family: "Weather Icons";
+              font-size: 1rem;
+            }
+          }
         }
       }
       .daily-forecast {
-        td:nth-child(3) {
-          font-family: "Weather Icons";
+        th {
+          background: $dark-blue;
+          font-size: 0.6rem;
+          padding: 10px;
+          text-transform: uppercase;
+        }
+        tr {
+          border-top: 1px solid $dark-blue;
+          td {
+            line-height: 22px;
+            padding: 6px;
+            vertical-align: top;
+            @media only screen and (min-width: 550px) {
+              font-size: 0.7rem;
+            }
+            &:last-child {
+              display: none;
+              text-align: left;
+              @media only screen and (min-width: 550px) {
+                display: table-cell;
+              }
+            }
+          }
+          .wi {
+            font-family: "Weather Icons";
+            font-size: 1rem;
+          }
         }
       }
     }
