@@ -7,9 +7,6 @@ $dark-blue: #004966;
 $med-blue: #006e99;
 $white: #fff;
 $link-color: #ffff80;
-$warning-dark: #8a6d3b;
-$warning-med: #faebcc;
-$warning-light: #fcf8e3;
 
 *:focus {
   box-shadow: 0 0 3px 3px rgba(65, 180, 250, 0.8);
@@ -164,10 +161,10 @@ html {
       }
     }
     .error-message {
-      background: $warning-light;
-      border: 1px solid $warning-med;
+      background: hsl(349, 96%, 95%);
+      border: 1px solid hsl(349, 96%, 90%);
       border-radius: 3px;
-      color: $warning-dark;
+      color: hsl(349, 96%, 26%);
       line-height: 20px;
       margin: 40px auto 0;
       max-width: 900px;
