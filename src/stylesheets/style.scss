@@ -40,122 +40,139 @@ html {
       @media only screen and (min-width: 980px) {
         grid-template-columns: 50% 50%;
       }
-      .location {
-        font-size: 1rem;
-        text-shadow: 1px 1px 1px $dark-blue;
-      }
-      .temp {
-        font-size: 4.5rem;
-        margin-top: 25px;
-        text-shadow: 2px 2px 1px $dark-blue;
-      }
-      .weather-icon {
-        font-family: "Weather Icons";
-        font-size: 3.5rem;
-        margin-top: 25px;
-        text-shadow: 2px 2px 1px $dark-blue;
-      }
-      .weather {
-        font-size: 1rem;
-        margin-top: 25px;
-        text-shadow: 1px 1px 1px $dark-blue;
-      }
-      .switch {
-        background: $dark-blue;
-        border: 3px solid $dark-blue;
-        border-radius: 34px;
-        height: 34px;
-        margin: 25px 0;
-        padding: 4px 8px;
-        position: relative;
-        text-align: right;
-        width: 70px;
-        &:before {
-          background: $white;
-          border-radius: 50%;
-          bottom: 1px;
-          content: "";
-          height: 26px;
-          left: 1px;
-          position: absolute;
-          width: 26px;
+      .col:first-child {
+        .location {
+          font-size: 1rem;
+          text-shadow: 1px 1px 1px $dark-blue;
         }
-      }
-      .fahrenheit {
-        text-align: right;
-        &:before {
-          animation: toggleF 0.15s ease-out;
-          left: 1px;
+        .temp {
+          font-size: 4.5rem;
+          margin-top: 25px;
+          text-shadow: 2px 2px 1px $dark-blue;
         }
-      }
-      .celsius {
-        text-align: left;
-        &:before {
-          animation: toggleC 0.15s ease-out;
-          left: 37px;
+        .weather-icon {
+          font-family: "Weather Icons";
+          font-size: 3.5rem;
+          margin-top: 25px;
+          text-shadow: 2px 2px 1px $dark-blue;
         }
-      }
-      table {
-        margin: auto;
-        width: 215px;
-        @media only screen and (min-width: 350px) {
-          width: 285px;
+        .weather {
+          font-size: 1rem;
+          margin-top: 25px;
+          text-shadow: 1px 1px 1px $dark-blue;
         }
-        @media only screen and (min-width: 550px) {
-          width: 440px;
+        .sunrise-sunset {
+          margin: 25px auto 0;
+          th {
+            background: $dark-blue;
+            font-size: 0.7rem;
+            padding: 10px;
+            text-transform: uppercase;
+            width: 100px;
+          }
+          td {
+            padding: 10px;
+          }
         }
-      }
-      .hourly-forecast {
-        background: $dark-blue;
-        display: flex;
-        margin-bottom: 20px;
-        tbody {
-          overflow-x: auto;
+        .switch {
+          background: $dark-blue;
+          border: 3px solid $dark-blue;
+          border-radius: 34px;
+          height: 34px;
+          margin: 25px 0;
+          padding: 4px 8px;
           position: relative;
+          text-align: right;
+          width: 70px;
+          &:before {
+            background: $white;
+            border-radius: 50%;
+            bottom: 1px;
+            content: "";
+            height: 26px;
+            left: 1px;
+            position: absolute;
+            width: 26px;
+          }
+        }
+        .fahrenheit {
+          text-align: right;
+          &:before {
+            animation: toggleF 0.15s ease-out;
+            left: 1px;
+          }
+        }
+        .celsius {
+          text-align: left;
+          &:before {
+            animation: toggleC 0.15s ease-out;
+            left: 37px;
+          }
+        }
+      }
+      .col:last-child {
+        table {
+          margin: auto;
+          width: 215px;
+          @media only screen and (min-width: 350px) {
+            width: 285px;
+          }
+          @media only screen and (min-width: 550px) {
+            width: 440px;
+          }
+        }
+        .hourly-forecast {
+          background: $dark-blue;
+          display: flex;
+          margin-bottom: 20px;
+          tbody {
+            overflow-x: auto;
+            position: relative;
+            tr {
+              display: table-cell;
+              padding: 18px;
+              td {
+                display: table-row;
+                line-height: 25px;
+                @media only screen and (min-width: 550px) {
+                  font-size: 0.7rem;
+                }
+              }
+              .wi {
+                font-family: "Weather Icons";
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+        .daily-forecast {
+          th {
+            background: $dark-blue;
+            font-size: 0.7rem;
+            padding: 10px;
+            text-transform: uppercase;
+          }
           tr {
-            display: table-cell;
-            padding: 18px;
+            border-top: 1px solid $dark-blue;
             td {
-              display: table-row;
-              line-height: 25px;
+              line-height: 22px;
+              padding: 6px;
+              vertical-align: top;
               @media only screen and (min-width: 550px) {
                 font-size: 0.7rem;
+              }
+              &:last-child {
+                display: none;
+                text-align: left;
+                @media only screen and (min-width: 550px) {
+                  display: table-cell;
+                }
               }
             }
             .wi {
               font-family: "Weather Icons";
               font-size: 1rem;
             }
-          }
-        }
-      }
-      .daily-forecast {
-        th {
-          background: $dark-blue;
-          font-size: 0.7rem;
-          padding: 10px;
-          text-transform: uppercase;
-        }
-        tr {
-          border-top: 1px solid $dark-blue;
-          td {
-            line-height: 22px;
-            padding: 6px;
-            vertical-align: top;
-            @media only screen and (min-width: 550px) {
-              font-size: 0.7rem;
-            }
-            &:last-child {
-              display: none;
-              text-align: left;
-              @media only screen and (min-width: 550px) {
-                display: table-cell;
-              }
-            }
-          }
-          .wi {
-            font-family: "Weather Icons";
-            font-size: 1rem;
           }
         }
       }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import HourlyForecast from './hourly-forecast';
 import DailyForecast from './daily-forecast';
 import axios from 'axios-jsonp-pro';
+import moment from 'moment';
 
 export default class App extends Component {
 
@@ -15,6 +16,8 @@ export default class App extends Component {
       currentTemp: '',
       currentWeatherIcon: '',
       currentWeather: '',
+      sunrise: '',
+      sunset: '',
       buttonClass: 'switch',
       hourlyForecast: [],
       dailyForecast: [],
@@ -63,6 +66,8 @@ export default class App extends Component {
           currentTemp: this.currentF,
           currentWeatherIcon: `wi wi-forecast-io-${weatherData.currently.icon}`,
           currentWeather: weatherData.currently.summary,
+          sunrise: weatherData.daily.data[0].sunriseTime,
+          sunset: weatherData.daily.data[0].sunsetTime,
           hourlyForecast: weatherData.hourly.data,
           dailyForecast: weatherData.daily.data,
           spinnerStyle: {display: 'none'},
@@ -134,6 +139,21 @@ export default class App extends Component {
               <div className="temp">{this.state.currentTemp}&deg;{this.state.tempType}</div>
               <div className={`${this.state.currentWeatherIcon} weather-icon`}></div>
               <div className="weather">{this.state.currentWeather}</div>
+              {/* SUNRISE/SUNSET */}
+              <table className="sunrise-sunset">
+                <thead>
+                  <tr>
+                    <th>Sunrise</th>
+                    <th>Sunset</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{moment(this.state.sunrise * 1000).format('h:mm A')}</td>
+                    <td>{moment(this.state.sunset * 1000).format('h:mm A')}</td>
+                  </tr>
+                </tbody>
+              </table>
               {/* BUTTON */}
               <button type="button" className={this.state.buttonClass} onClick={() => this.changeTempType()}>&deg;{this.state.tempType}</button>
             </div>
