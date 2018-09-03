@@ -4,7 +4,7 @@ My project for the [Show the Local Weather challenge](https://learn.freecodecamp
 
 ---
 
-## Built with
+## Built With
 * [React](https://reactjs.org)
 * [Sass](http://sass-lang.com)
 * Geolocation
