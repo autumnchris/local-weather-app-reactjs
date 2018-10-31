@@ -60,7 +60,6 @@ export default class App extends Component {
       .then(axios.spread((geocodingData, weatherData) => {
         this.currentF = Math.round(weatherData.currently.temperature);
         this.currentC = Math.round((weatherData.currently.temperature - 32) * (5/9));
-
         this.setState({
           location: geocodingData.data.results[0].address_components[3].long_name,
           currentTemp: this.currentF,
@@ -169,7 +168,7 @@ export default class App extends Component {
         </main>
         {/* FOOTER */}
         <footer>
-          <span>Coded by <a href="../portfolio" target="_blank">Autumn Bullard</a></span>
+          <span>Coded by <a href="https://autumnbullard-portfolio.herokuapp.com" target="_blank">Autumn Bullard</a></span>
           <span>Powered by <a href="https://darksky.net/poweredby" target="_blank">Dark Sky</a></span>
         </footer>
       </div>
