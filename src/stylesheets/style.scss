@@ -82,7 +82,6 @@ html {
           margin: 25px 0;
           padding: 4px 8px;
           position: relative;
-          text-align: right;
           width: 70px;
           &:before {
             background: $white;
@@ -90,19 +89,18 @@ html {
             bottom: 1px;
             content: "";
             height: 26px;
-            left: 1px;
             position: absolute;
             width: 26px;
           }
         }
-        .fahrenheit {
+        .f {
           text-align: right;
           &:before {
             animation: toggleF 0.15s ease-out;
             left: 1px;
           }
         }
-        .celsius {
+        .c {
           text-align: left;
           &:before {
             animation: toggleC 0.15s ease-out;

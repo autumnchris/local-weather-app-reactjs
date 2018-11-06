@@ -12,22 +12,21 @@ export default class App extends Component {
       lat: null,
       lng: null,
       location: '',
-      tempType: 'F',
+      tempType: JSON.parse(localStorage.getItem('tempType')) || 'f',
       currentTemp: '',
       currentWeatherIcon: '',
       currentWeather: '',
       sunrise: '',
       sunset: '',
-      buttonClass: 'switch',
       hourlyForecast: [],
       dailyForecast: [],
       errorMessage: '',
       spinnerStyle: {display: 'block'},
       resultStyle: {display: 'none'},
       errorStyle: {display: 'none'},
-      hourlyFTempStyle: {display: 'inline'},
+      hourlyFTempStyle: {display: 'none'},
       hourlyCTempStyle: {display: 'none'},
-      dailyFTempStyle: {display: 'inline'},
+      dailyFTempStyle: {display: 'none'},
       dailyCTempStyle: {display: 'none'}
     };
     this.currentF = null;
@@ -62,7 +61,6 @@ export default class App extends Component {
         this.currentC = Math.round((weatherData.currently.temperature - 32) * (5/9));
         this.setState({
           location: geocodingData.data.results[0].address_components[3].long_name,
-          currentTemp: this.currentF,
           currentWeatherIcon: `wi wi-forecast-io-${weatherData.currently.icon}`,
           currentWeather: weatherData.currently.summary,
           sunrise: weatherData.daily.data[0].sunriseTime,
@@ -72,6 +70,13 @@ export default class App extends Component {
           spinnerStyle: {display: 'none'},
           resultStyle: {display: 'grid'}
         });
+
+        if (this.state.tempType === 'f') {
+          this.displayF();
+        }
+        else {
+          this.displayC();
+        }
       })).catch(() => {
         this.setState({
           errorMessage: 'Unable to load current weather.',
@@ -93,30 +98,39 @@ export default class App extends Component {
     navigator.geolocation.getCurrentPosition(this.getSuccess, this.getError);
   }
 
-  changeTempType() {
+  displayF() {
+    this.setState({
+      currentTemp: this.currentF,
+      hourlyFTempStyle: {display: 'inline'},
+      hourlyCTempStyle: {display: 'none'},
+      dailyFTempStyle: {display: 'inline'},
+      dailyCTempStyle: {display: 'none'}
+    });
+  }
 
-    if (this.state.tempType === 'F') {
-      this.setState({
-        tempType: 'C',
-        currentTemp: this.currentC,
-        buttonClass: 'switch celsius',
-        hourlyFTempStyle: {display: 'none'},
-        hourlyCTempStyle: {display: 'inline'},
-        dailyFTempStyle: {display: 'none'},
-        dailyCTempStyle: {display: 'inline'}
-      });
+  displayC() {
+    this.setState({
+      currentTemp: this.currentC,
+      hourlyFTempStyle: {display: 'none'},
+      hourlyCTempStyle: {display: 'inline'},
+      dailyFTempStyle: {display: 'none'},
+      dailyCTempStyle: {display: 'inline'}
+    });
+  }
+
+  changeTempType() {
+    let tempType;
+
+    if (this.state.tempType === 'f') {
+      tempType = 'c';
+      this.displayC();
     }
     else {
-      this.setState({
-        tempType: 'F',
-        currentTemp: this.currentF,
-        buttonClass: 'switch fahrenheit',
-        hourlyFTempStyle: {display: 'inline'},
-        hourlyCTempStyle: {display: 'none'},
-        dailyFTempStyle: {display: 'inline'},
-        dailyCTempStyle: {display: 'none'}
-      });
+      tempType = 'f';
+      this.displayF();
     }
+    this.setState({ tempType });
+    localStorage.setItem('tempType', JSON.stringify(tempType));
   }
 
   render() {
@@ -135,7 +149,7 @@ export default class App extends Component {
             <div className="col">
               {/* CURRENT WEATHER */}
               <div className="location">{this.state.location}</div>
-              <div className="temp">{this.state.currentTemp}&deg;{this.state.tempType}</div>
+              <div className="temp">{this.state.currentTemp}&deg;{this.state.tempType.toUpperCase()}</div>
               <div className={`${this.state.currentWeatherIcon} weather-icon`}></div>
               <div className="weather">{this.state.currentWeather}</div>
               {/* SUNRISE/SUNSET */}
@@ -154,7 +168,7 @@ export default class App extends Component {
                 </tbody>
               </table>
               {/* BUTTON */}
-              <button type="button" className={this.state.buttonClass} onClick={() => this.changeTempType()}>&deg;{this.state.tempType}</button>
+              <button type="button" className={`switch ${this.state.tempType}`} onClick={() => this.changeTempType()}>&deg;{this.state.tempType.toUpperCase()}</button>
             </div>
             <div className="col">
               {/* HOURLY FORECAST */}
