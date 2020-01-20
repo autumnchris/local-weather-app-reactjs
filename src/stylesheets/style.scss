@@ -3,16 +3,16 @@
   src: url(.././fonts/weather-icons.ttf);
 }
 
-@import 'variables';
-@import 'reset';
+@import "variables";
+@import "reset";
 
 *:focus {
-  box-shadow: 0 0 3px 3px rgba(65, 180, 250, 0.8);
+  box-shadow: 0 0 3px 3px hsla(203, 95%, 62%, 0.8);
   outline: none;
 }
 
 html {
-  background: $dark-blue;
+  background: $blue;
   h1 {
     font-size: 1.2rem;
     letter-spacing: 4px;
@@ -29,7 +29,7 @@ html {
       padding-top: 40px;
     }
     .card {
-      background: $med-blue;
+      background: change-color($blue, $lightness: 30%);
       display: grid;
       grid-template-columns: 100%;
       margin: auto;
@@ -41,28 +41,28 @@ html {
       .col:first-child {
         .location {
           font-size: 1rem;
-          text-shadow: 1px 1px 1px $dark-blue;
+          text-shadow: 1px 1px 1px $blue;
         }
         .temp {
           font-size: 4.5rem;
           margin-top: 25px;
-          text-shadow: 2px 2px 1px $dark-blue;
+          text-shadow: 2px 2px 1px $blue;
         }
         .weather-icon {
           font-family: "Weather Icons";
           font-size: 3.5rem;
           margin-top: 25px;
-          text-shadow: 2px 2px 1px $dark-blue;
+          text-shadow: 2px 2px 1px $blue;
         }
         .weather {
           font-size: 1rem;
           margin-top: 25px;
-          text-shadow: 1px 1px 1px $dark-blue;
+          text-shadow: 1px 1px 1px $blue;
         }
         .sunrise-sunset {
           margin: 25px auto 0;
           th {
-            background: $dark-blue;
+            background: $blue;
             font-size: 0.7rem;
             padding: 10px;
             text-transform: uppercase;
@@ -73,8 +73,8 @@ html {
           }
         }
         .switch {
-          background: $dark-blue;
-          border: 3px solid $dark-blue;
+          background: $blue;
+          border: 3px solid $blue;
           border-radius: 34px;
           height: 34px;
           margin: 25px 0;
@@ -118,7 +118,7 @@ html {
           }
         }
         .hourly-forecast {
-          background: $dark-blue;
+          background: $blue;
           display: flex;
           margin-bottom: 20px;
           tbody {
@@ -143,13 +143,13 @@ html {
         }
         .daily-forecast {
           th {
-            background: $dark-blue;
+            background: $blue;
             font-size: 0.7rem;
             padding: 10px;
             text-transform: uppercase;
           }
           tr {
-            border-top: 1px solid $dark-blue;
+            border-top: 1px solid $blue;
             td {
               line-height: 22px;
               padding: 6px;
@@ -174,10 +174,10 @@ html {
       }
     }
     .error-message {
-      background: hsl(349, 96%, 95%);
-      border: 1px solid hsl(349, 96%, 90%);
+      background: change-color($error-red, $lightness: 95%);
+      border: 1px solid change-color($error-red, $lightness: 90%);
       border-radius: 3px;
-      color: hsl(349, 96%, 26%);
+      color: $error-red;
       line-height: 20px;
       margin: 40px auto 0;
       max-width: 900px;
@@ -185,7 +185,7 @@ html {
     }
   }
   footer {
-    background: $med-blue;
+    background: change-color($blue, $lightness: 30%);
     bottom: 0;
     font-size: 0.6rem;
     left: 0;

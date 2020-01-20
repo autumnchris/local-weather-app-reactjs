@@ -85,7 +85,7 @@ caption {
   letter-spacing: inherit; }
 
 *:focus {
-  box-shadow: 0 0 3px 3px rgba(65, 180, 250, 0.8);
+  box-shadow: 0 0 3px 3px rgba(66, 180, 250, 0.8);
   outline: none; }
 
 html {
