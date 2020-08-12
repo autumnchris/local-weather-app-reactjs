@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   context: __dirname,
@@ -38,7 +39,8 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   plugins: [
-    new MiniCssExtractPlugin({ filename: 'style.css' })
+    new MiniCssExtractPlugin({ filename: 'style.css' }),
+    new Dotenv()
   ],
   devServer: {
     historyApiFallback: true,

@@ -1,6 +1,6 @@
 # Local Weather App (React.js)
 
-My project for the [Show the Local Weather challenge](https://learn.freecodecamp.org/coding-interview-prep/take-home-projects/show-the-local-weather) as part of the curriculum for the Coding Interview Take Home Projects on [Free Code Camp](https://www.freecodecamp.org). Built with React.js.
+My project for the [Show the Local Weather challenge](https://learn.freecodecamp.org/coding-interview-prep/take-home-projects/show-the-local-weather) as part of the curriculum for the Coding Interview Take Home Projects on [freeCodeCamp](https://www.freecodecamp.org). Built with React.js.
 
 ---
 
@@ -15,6 +15,7 @@ My project for the [Show the Local Weather challenge](https://learn.freecodecamp
 * [Weather Icons](https://erikflowers.github.io/weather-icons)
 * [Google Maps Geocoding API](https://developers.google.com/maps/documentation/geocoding/start)
 * LocalStorage
+* [dotenv-webpack](https://github.com/mrsteele/dotenv-webpack)
 * [Babel](https://babeljs.io)
 * [Google Fonts](https://fonts.google.com)
 * [Font Awesome](https://fontawesome.com)

@@ -40,13 +40,11 @@ export default class App extends Component {
   }
 
   fetchGeocodingAPI() {
-    const geocodingAPIKey = 'AIzaSyDF-M0gmMFMWJ2zO0tfKNs8Y0zbRUJaACA';
-    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.lat},${this.state.lng}&key=${geocodingAPIKey}`);
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.lat},${this.state.lng}&key=${process.env.GEOCODING_API_KEY}`);
   }
 
   fetchweatherAPI() {
-    const weatherAPIKey = '6e76605e3f2672147d041fcb0df33e81';
-    return axios.jsonp(`https://api.darksky.net/forecast/${weatherAPIKey}/${this.state.lat},${this.state.lng}`);
+    return axios.jsonp(`https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${this.state.lat},${this.state.lng}`);
   }
 
   getSuccess(position) {
@@ -79,7 +77,7 @@ export default class App extends Component {
         }
       })).catch(() => {
         this.setState({
-          errorMessage: 'Unable to load current weather.',
+          errorMessage: 'Unable to load current weather at this time.',
           spinnerStyle: {display: 'none'},
           errorStyle: {display: 'block'}
         });

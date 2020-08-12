@@ -1,7 +1,7 @@
 {
   "name": "local-weather-app-reactjs",
   "version": "1.0.0",
-  "description": "My project for the Show the Local Weather challenge as part of the curriculum for the Coding Interview Take Home Projects on Free Code Camp. Built with React.js.",
+  "description": "My project for the Show the Local Weather challenge as part of the curriculum for the Coding Interview Take Home Projects on freeCodeCamp. Built with React.js.",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
@@ -19,22 +19,23 @@
   },
   "homepage": "https://autumnchris.github.io/local-weather-app-reactjs",
   "dependencies": {
-    "axios-jsonp-pro": "^1.1.4",
+    "axios-jsonp-pro": "^1.1.8",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^1.0.1",
+    "dotenv-webpack": "^2.0.0",
     "mini-css-extract-plugin": "^0.5.0",
-    "moment": "^2.22.2",
-    "node-sass": "^4.11.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "sass-loader": "^7.1.0",
+    "moment": "^2.27.0",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "sass-loader": "^7.3.1",
     "style-loader": "^0.21.0",
-    "url-loader": "^1.0.1",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.2.0",
-    "webpack-dev-server": "^3.1.14"
+    "url-loader": "^1.1.2",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   }
 }
