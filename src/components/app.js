@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import HourlyForecast from './hourly-forecast';
-import DailyForecast from './daily-forecast';
+import React from 'react';
+import LoadingSpinner from './loading-spinner';
+import ResultsContainer from './results-container';
 import axios from 'axios-jsonp-pro';
-import moment from 'moment';
 
-export default class App extends Component {
+class App extends React.Component {
 
   constructor(props) {
     super(props);
@@ -13,37 +12,32 @@ export default class App extends Component {
       lng: null,
       location: '',
       tempType: JSON.parse(localStorage.getItem('tempType')) || 'f',
-      currentTemp: '',
-      currentWeatherIcon: '',
-      currentWeather: '',
-      sunrise: '',
-      sunset: '',
-      hourlyForecast: [],
-      dailyForecast: [],
-      errorMessage: '',
-      spinnerStyle: {display: 'block'},
-      resultStyle: {display: 'none'},
-      errorStyle: {display: 'none'},
-      hourlyFTempStyle: {display: 'none'},
-      hourlyCTempStyle: {display: 'none'},
-      dailyFTempStyle: {display: 'none'},
-      dailyCTempStyle: {display: 'none'}
+      weatherData: {
+        city: '',
+        currentWeather: {
+          temp: '',
+          weatherSummary: '',
+          weatherIcon: ''
+        },
+        sunriseTime: '',
+        sunsetTime: '',
+        hourlyForecast: [],
+        dailyForecast: []
+      },
+      isLoading: true,
+      loadingError: false,
+      errorMessage: ''
     };
-    this.currentF = null;
-    this.currentC = null;
-
     this.getSuccess = this.getSuccess.bind(this);
     this.getError = this.getError.bind(this);
-    this.fetchGeocodingAPI = this.fetchGeocodingAPI.bind(this);
-    this.fetchweatherAPI = this.fetchweatherAPI.bind(this);
-    this.changeTempType = this.changeTempType.bind(this);
+    this.toggleTempType = this.toggleTempType.bind(this);
   }
 
   fetchGeocodingAPI() {
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.lat},${this.state.lng}&key=${process.env.GEOCODING_API_KEY}`);
   }
 
-  fetchweatherAPI() {
+  fetchWeatherAPI() {
     return axios.jsonp(`https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${this.state.lat},${this.state.lng}`);
   }
 
@@ -53,42 +47,38 @@ export default class App extends Component {
       lng: position.coords.longitude
     });
 
-    axios.all([this.fetchGeocodingAPI(), this.fetchweatherAPI()])
+    axios.all([this.fetchGeocodingAPI(), this.fetchWeatherAPI()])
       .then(axios.spread((geocodingData, weatherData) => {
-        this.currentF = Math.round(weatherData.currently.temperature);
-        this.currentC = Math.round((weatherData.currently.temperature - 32) * (5/9));
         this.setState({
-          location: geocodingData.data.results[0].address_components[3].long_name,
-          currentWeatherIcon: `wi wi-forecast-io-${weatherData.currently.icon}`,
-          currentWeather: weatherData.currently.summary,
-          sunrise: weatherData.daily.data[0].sunriseTime,
-          sunset: weatherData.daily.data[0].sunsetTime,
-          hourlyForecast: weatherData.hourly.data,
-          dailyForecast: weatherData.daily.data,
-          spinnerStyle: {display: 'none'},
-          resultStyle: {display: 'grid'}
+          weatherData: {
+            city: geocodingData.data.results[0].address_components[3].long_name,
+            currentWeather: {
+              temp: weatherData.currently.temperature,
+              weatherSummary: weatherData.currently.summary,
+              weatherIcon: `wi wi-forecast-io-${weatherData.currently.icon}`
+            },
+            sunriseTime: weatherData.daily.data[0].sunriseTime,
+            sunsetTime: weatherData.daily.data[0].sunsetTime,
+            hourlyForecast: weatherData.hourly.data,
+            dailyForecast: weatherData.daily.data
+          },
+          isLoading: false,
+          loadingError: false
         });
-
-        if (this.state.tempType === 'f') {
-          this.displayF();
-        }
-        else {
-          this.displayC();
-        }
       })).catch(() => {
         this.setState({
-          errorMessage: 'Unable to load current weather at this time.',
-          spinnerStyle: {display: 'none'},
-          errorStyle: {display: 'block'}
+          isLoading: false,
+          loadingError: true,
+          errorMessage: 'Unable to load current weather at this time.'
         });
       });
   }
 
   getError(err) {
     this.setState({
-      errorMessage: `${err.message}.`,
-      spinnerStyle: {display: 'none'},
-      errorStyle: {display: 'block'}
+      isLoading: false,
+      loadingError: true,
+      errorMessage: `${err.message}.`
     });
   }
 
@@ -96,94 +86,27 @@ export default class App extends Component {
     navigator.geolocation.getCurrentPosition(this.getSuccess, this.getError);
   }
 
-  displayF() {
-    this.setState({
-      currentTemp: this.currentF,
-      hourlyFTempStyle: {display: 'inline'},
-      hourlyCTempStyle: {display: 'none'},
-      dailyFTempStyle: {display: 'inline'},
-      dailyCTempStyle: {display: 'none'}
-    });
-  }
-
-  displayC() {
-    this.setState({
-      currentTemp: this.currentC,
-      hourlyFTempStyle: {display: 'none'},
-      hourlyCTempStyle: {display: 'inline'},
-      dailyFTempStyle: {display: 'none'},
-      dailyCTempStyle: {display: 'inline'}
-    });
-  }
-
-  changeTempType() {
-    let tempType;
-
-    if (this.state.tempType === 'f') {
-      tempType = 'c';
-      this.displayC();
-    }
-    else {
-      tempType = 'f';
-      this.displayF();
-    }
-    this.setState({ tempType });
+  toggleTempType() {
+    let tempType = this.state.tempType;
+    tempType === 'f' ? tempType = 'c' : tempType = 'f';
+    this.setState({ tempType});
     localStorage.setItem('tempType', JSON.stringify(tempType));
   }
 
   render() {
     return (
-      <div className="body">
-        {/* HEADER */}
+      <React.Fragment>
         <header>
           <h1>View your local weather</h1>
         </header>
         <main>
-          {/* LOADING SPINNER */}
-          <div className="spinner" style={this.state.spinnerStyle}>
-            <span className="fa fa-sync-alt fa-spin fa-3x fa-fw" aria-label="Loading..."></span>
-          </div>
-          <div className="card" style={this.state.resultStyle}>
-            <div className="col">
-              {/* CURRENT WEATHER */}
-              <div className="location">{this.state.location}</div>
-              <div className="temp">{this.state.currentTemp}&deg;{this.state.tempType.toUpperCase()}</div>
-              <div className={`${this.state.currentWeatherIcon} weather-icon`}></div>
-              <div className="weather">{this.state.currentWeather}</div>
-              {/* SUNRISE/SUNSET */}
-              <table className="sunrise-sunset">
-                <thead>
-                  <tr>
-                    <th>Sunrise</th>
-                    <th>Sunset</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{moment(this.state.sunrise * 1000).format('h:mm A')}</td>
-                    <td>{moment(this.state.sunset * 1000).format('h:mm A')}</td>
-                  </tr>
-                </tbody>
-              </table>
-              {/* BUTTON */}
-              <button type="button" className={`switch ${this.state.tempType}`} onClick={() => this.changeTempType()}>&deg;{this.state.tempType.toUpperCase()}</button>
-            </div>
-            <div className="col">
-              {/* HOURLY FORECAST */}
-              <HourlyForecast hours={this.state.hourlyForecast} fTempStyle={this.state.hourlyFTempStyle} cTempStyle={this.state.hourlyCTempStyle} />
-              {/* FIVE-DAY FORECAST */}
-              <DailyForecast days={this.state.dailyForecast} fTempStyle={this.state.dailyFTempStyle} cTempStyle={this.state.dailyCTempStyle} />
-            </div>
-          </div>
-          {/* ERROR MESSAGE */}
-          <p className="message error-message" style={this.state.errorStyle}><span className="fa fa-exclamation-circle fa-lg fa-fw"></span> {this.state.errorMessage}</p>
+          {this.state.isLoading ? <LoadingSpinner /> : null}
+          {!this.state.isLoading ? <ResultsContainer weatherData={this.state.weatherData} tempType={this.state.tempType} toggleTempType={this.toggleTempType} loadingError={this.state.loadingError} errorMessage={this.state.errorMessage} /> : null}
         </main>
-        {/* FOOTER */}
-        <footer>
-          <span>Coded by <a href="https://autumnbullard-portfolio.herokuapp.com" target="_blank">Autumn Bullard</a></span>
-          <span>Powered by <a href="https://darksky.net/poweredby" target="_blank">Dark Sky</a></span>
-        </footer>
-      </div>
+        <footer>Created by <a href="https://autumnbullard-portfolio.herokuapp.com" target="_blank">Autumn Bullard</a> &copy; {new Date().getFullYear()} | Powered by <a href="https://darksky.net/poweredby" target="_blank">Dark Sky</a></footer>
+      </React.Fragment>
     );
   }
 }
+
+export default App;

@@ -1,19 +1,16 @@
 import React from 'react';
-import Hour from './hour';
+import moment from 'moment';
 
-const HourlyForecast = ({ hours, fTempStyle, cTempStyle }) => {
-
-  const Hours = hours.map((hour, index) => {
-
-    while(index < 24) {
-      return <Hour key={index} hour={hour} fTempStyle={fTempStyle} cTempStyle={cTempStyle} />;
-    }
-  });
+const HourlyForecast = ({ hour, tempType }) => {
+  const hourlyF = Math.round(hour.temperature);
+  const hourlyC = Math.round((hour.temperature - 32) * (5/9));
 
   return (
-    <table className="hourly-forecast">
-      <tbody>{Hours}</tbody>
-    </table>
+    <tr>
+      <td>{moment(hour.time * 1000).format('hA')}</td>
+      <td className={`wi wi-forecast-io-${hour.icon} weather-icon`}></td>
+      <td>{tempType === 'f' ? hourlyF : hourlyC}&deg;</td>
+    </tr>
   );
 }
 

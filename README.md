@@ -17,6 +17,7 @@ My project for the [Show the Local Weather challenge](https://learn.freecodecamp
 * LocalStorage
 * [dotenv-webpack](https://github.com/mrsteele/dotenv-webpack)
 * [Babel](https://babeljs.io)
+* [Normalize.css](https://necolas.github.io/normalize.css)
 * [Google Fonts](https://fonts.google.com)
 * [Font Awesome](https://fontawesome.com)
 
