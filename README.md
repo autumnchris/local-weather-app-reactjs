@@ -8,6 +8,7 @@ My project for the [Show the Local Weather challenge](https://learn.freecodecamp
 * [React.js](https://reactjs.org)
 * [Sass](http://sass-lang.com)
 * Geolocation
+* AJAX
 * [axios-jsonp-pro](https://github.com/RekingZhang/axios-jsonp)
 * [Dark Sky weather API](https://darksky.net/dev)
 * [Webpack](https://webpack.js.org)
@@ -18,8 +19,8 @@ My project for the [Show the Local Weather challenge](https://learn.freecodecamp
 * [dotenv-webpack](https://github.com/mrsteele/dotenv-webpack)
 * [Babel](https://babeljs.io)
 * [Normalize.css](https://necolas.github.io/normalize.css)
-* [Google Fonts](https://fonts.google.com)
 * [Font Awesome](https://fontawesome.com)
+* [Google Fonts](https://fonts.google.com)
 
 ## Demo
 

@@ -14,10 +14,10 @@ const ResultsContainer = ({ weatherData, tempType, toggleTempType, loadingError,
     return (
       <div className="weather-content">
         <div className="col">
-        <div className="location">{weatherData.city}</div>
+          <div className="location">{weatherData.city}</div>
           <div className="current-weather">
             <div className="temp">{tempType === 'f' ? currentF : currentC}&deg;{tempType.toUpperCase()}</div>
-            <div className={`${weatherData.currentWeather.weatherIcon} weather-icon`}></div>
+            <div className={`wi wi-forecast-io-${weatherData.currentWeather.weatherIcon} weather-icon`}></div>
             <div className="weather-summary">{weatherData.currentWeather.weatherSummary}</div>
           </div>
           <table className="sunrise-sunset">

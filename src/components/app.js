@@ -1,7 +1,7 @@
 import React from 'react';
+import axios from 'axios-jsonp-pro';
 import LoadingSpinner from './loading-spinner';
 import ResultsContainer from './results-container';
-import axios from 'axios-jsonp-pro';
 
 class App extends React.Component {
 
@@ -55,7 +55,7 @@ class App extends React.Component {
             currentWeather: {
               temp: weatherData.currently.temperature,
               weatherSummary: weatherData.currently.summary,
-              weatherIcon: `wi wi-forecast-io-${weatherData.currently.icon}`
+              weatherIcon: weatherData.currently.icon
             },
             sunriseTime: weatherData.daily.data[0].sunriseTime,
             sunsetTime: weatherData.daily.data[0].sunsetTime,
@@ -82,15 +82,15 @@ class App extends React.Component {
     });
   }
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(this.getSuccess, this.getError);
-  }
-
   toggleTempType() {
     let tempType = this.state.tempType;
     tempType === 'f' ? tempType = 'c' : tempType = 'f';
-    this.setState({ tempType});
+    this.setState({ tempType });
     localStorage.setItem('tempType', JSON.stringify(tempType));
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(this.getSuccess, this.getError);
   }
 
   render() {

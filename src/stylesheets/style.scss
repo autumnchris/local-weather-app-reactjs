@@ -211,6 +211,8 @@ html {
           content: "";
           height: 26px;
           position: absolute;
+          -webkit-transition: .5s;
+          transition: .5s;
           width: 26px;
         }
         &.f,
@@ -219,7 +221,6 @@ html {
         &.f:focus {
           text-align: right;
           &:before {
-            animation: toggleF 0.15s ease-out;
             left: 1px;
           }
         }
@@ -229,7 +230,6 @@ html {
         &.c:focus{
           text-align: left;
           &:before {
-            animation: toggleC 0.15s ease-out;
             left: 37px;
           }
         }
@@ -308,21 +308,3 @@ html {
     top: 50%;
     transform: translate(-50%, -50%);
   }
-
-@keyframes toggleF {
-  from {
-    left: 35px;
-  }
-  to {
-    left: 1px;
-  }
-}
-
-@keyframes toggleC {
-  from {
-    left: 1px;
-  }
-  to {
-    left: 37px;
-  }
-}
