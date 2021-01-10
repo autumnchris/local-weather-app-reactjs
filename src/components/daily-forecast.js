@@ -2,17 +2,17 @@ import React from 'react';
 import moment from 'moment';
 
 const DailyForecast = ({ day, tempType }) => {
-  const dailyHighF = Math.round(day.temperatureMax);
-  const dailyLowF = Math.round(day.temperatureMin);
-  const dailyHighC = Math.round((day.temperatureMax - 32) * (5/9));
-  const dailyLowC = Math.round((day.temperatureMin - 32) * (5/9));
+  const dailyHighF = Math.round(day.temp.max);
+  const dailyLowF = Math.round(day.temp.min);
+  const dailyHighC = Math.round((day.temp.max - 32) * (5/9));
+  const dailyLowC = Math.round((day.temp.min - 32) * (5/9));
 
   return (
     <tr>
-      <td>{moment(day.time * 1000).format('ddd')}</td>
+      <td>{moment(day.dt * 1000).format('ddd')}</td>
       <td>{tempType === 'f' ? dailyHighF : dailyHighC}&deg;/{tempType === 'f' ? dailyLowF : dailyLowC}&deg;</td>
-      <td className={`wi wi-forecast-io-${day.icon} weather-icon`}></td>
-      <td>{day.summary}</td>
+      <td className={`wi wi-owm-${day.weather[0].id} weather-icon`}></td>
+      <td className="weather-description">{day.weather[0].description}</td>
     </tr>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios-jsonp-pro';
+import axios from 'axios';
 import LoadingSpinner from './loading-spinner';
 import ResultsContainer from './results-container';
 
@@ -9,21 +9,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       lat: null,
-      lng: null,
-      location: '',
+      lon: null,
       tempType: JSON.parse(localStorage.getItem('tempType')) || 'f',
-      weatherData: {
-        city: '',
-        currentWeather: {
-          temp: '',
-          weatherSummary: '',
-          weatherIcon: ''
-        },
-        sunriseTime: '',
-        sunsetTime: '',
-        hourlyForecast: [],
-        dailyForecast: []
-      },
+      weatherData: null,
       isLoading: true,
       loadingError: false,
       errorMessage: ''
@@ -33,34 +21,35 @@ class App extends React.Component {
     this.toggleTempType = this.toggleTempType.bind(this);
   }
 
-  fetchGeocodingAPI() {
-    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.lat},${this.state.lng}&key=${process.env.GEOCODING_API_KEY}`);
+  fetchCurrentWeatherData() {
+    return axios.get(`https://api.openweathermap.org/data/2.5/weather?&lat=${this.state.lat}&lon=${this.state.lon}&units=imperial&appid=${process.env.API_KEY}`);
   }
 
-  fetchWeatherAPI() {
-    return axios.jsonp(`https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${this.state.lat},${this.state.lng}`);
+  fetchForecastData() {
+    return axios.get(`https://api.openweathermap.org/data/2.5/onecall?&lat=${this.state.lat}&lon=${this.state.lon}&units=imperial&appid=${process.env.API_KEY}`);
   }
 
   getSuccess(position) {
     this.setState({
       lat: position.coords.latitude,
-      lng: position.coords.longitude
+      lon: position.coords.longitude
     });
 
-    axios.all([this.fetchGeocodingAPI(), this.fetchWeatherAPI()])
-      .then(axios.spread((geocodingData, weatherData) => {
+    axios.all([this.fetchCurrentWeatherData(), this.fetchForecastData()])
+      .then(axios.spread((currentWeatherData, forecastData) => {
         this.setState({
           weatherData: {
-            city: geocodingData.data.results[0].address_components[3].long_name,
+            city: currentWeatherData.data.name,
             currentWeather: {
-              temp: weatherData.currently.temperature,
-              weatherSummary: weatherData.currently.summary,
-              weatherIcon: weatherData.currently.icon
+              temp: currentWeatherData.data.main.temp,
+              weatherSummary: currentWeatherData.data.weather[0].description,
+              weatherIcon: currentWeatherData.data.weather[0].id,
+              isNight: currentWeatherData.data.weather[0].icon.slice(-1) === 'n' ? true : false
             },
-            sunriseTime: weatherData.daily.data[0].sunriseTime,
-            sunsetTime: weatherData.daily.data[0].sunsetTime,
-            hourlyForecast: weatherData.hourly.data,
-            dailyForecast: weatherData.daily.data
+            sunriseTime: currentWeatherData.data.sys.sunrise,
+            sunsetTime: currentWeatherData.data.sys.sunset,
+            hourlyForecast: forecastData.data.hourly,
+            dailyForecast: forecastData.data.daily
           },
           isLoading: false,
           loadingError: false
@@ -103,7 +92,7 @@ class App extends React.Component {
           {this.state.isLoading ? <LoadingSpinner /> : null}
           {!this.state.isLoading ? <ResultsContainer weatherData={this.state.weatherData} tempType={this.state.tempType} toggleTempType={this.toggleTempType} loadingError={this.state.loadingError} errorMessage={this.state.errorMessage} /> : null}
         </main>
-        <footer>Created by <a href="https://autumnbullard-portfolio.herokuapp.com" target="_blank">Autumn Bullard</a> &copy; {new Date().getFullYear()} | Powered by <a href="https://darksky.net/poweredby" target="_blank">Dark Sky</a></footer>
+        <footer>Created by <a href="https://autumnbullard-portfolio.herokuapp.com" target="_blank">Autumn Bullard</a> &copy; {new Date().getFullYear()}</footer>
       </React.Fragment>
     );
   }

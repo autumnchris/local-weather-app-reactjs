@@ -17,8 +17,8 @@ const ResultsContainer = ({ weatherData, tempType, toggleTempType, loadingError,
           <div className="location">{weatherData.city}</div>
           <div className="current-weather">
             <div className="temp">{tempType === 'f' ? currentF : currentC}&deg;{tempType.toUpperCase()}</div>
-            <div className={`wi wi-forecast-io-${weatherData.currentWeather.weatherIcon} weather-icon`}></div>
-            <div className="weather-summary">{weatherData.currentWeather.weatherSummary}</div>
+            <div className={`wi wi-owm${weatherData.currentWeather.isNight ? '-night' : ''}-${weatherData.currentWeather.weatherIcon} weather-icon`}></div>
+            <div className="weather-summary weather-description">{weatherData.currentWeather.weatherSummary}</div>
           </div>
           <table className="sunrise-sunset">
             <thead>
