@@ -89,8 +89,7 @@ class App extends React.Component {
           <h1>View your local weather</h1>
         </header>
         <main>
-          {this.state.isLoading ? <LoadingSpinner /> : null}
-          {!this.state.isLoading ? <ResultsContainer weatherData={this.state.weatherData} tempType={this.state.tempType} toggleTempType={this.toggleTempType} loadingError={this.state.loadingError} errorMessage={this.state.errorMessage} /> : null}
+          {this.state.isLoading ? <LoadingSpinner /> : <ResultsContainer weatherData={this.state.weatherData} tempType={this.state.tempType} toggleTempType={this.toggleTempType} loadingError={this.state.loadingError} errorMessage={this.state.errorMessage} />}
         </main>
         <footer>Created by <a href="https://autumnbullard-portfolio.herokuapp.com" target="_blank">Autumn Bullard</a> &copy; {new Date().getFullYear()}</footer>
       </React.Fragment>

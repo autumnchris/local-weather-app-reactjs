@@ -4,8 +4,6 @@ import HourlyForecast from './hourly-forecast'
 import DailyForecast from './daily-forecast';
 
 const ResultsContainer = ({ weatherData, tempType, toggleTempType, loadingError, errorMessage }) => {
-  const currentF = Math.round(weatherData.currentWeather.temp);
-  const currentC = Math.round((weatherData.currentWeather.temp - 32) * (5/9));
 
   if (loadingError) {
     return <p className="message error-message"><span className="fa fa-exclamation-circle fa-lg fa-fw"></span> {errorMessage}</p>;
@@ -16,7 +14,7 @@ const ResultsContainer = ({ weatherData, tempType, toggleTempType, loadingError,
         <div className="col">
           <div className="location">{weatherData.city}</div>
           <div className="current-weather">
-            <div className="temp">{tempType === 'f' ? currentF : currentC}&deg;{tempType.toUpperCase()}</div>
+            <div className="temp">{tempType === 'f' ? Math.round(weatherData.currentWeather.temp) : Math.round((weatherData.currentWeather.temp - 32) * (5/9))}&deg;{tempType.toUpperCase()}</div>
             <div className={`wi wi-owm${weatherData.currentWeather.isNight ? '-night' : ''}-${weatherData.currentWeather.weatherIcon} weather-icon`}></div>
             <div className="weather-summary weather-description">{weatherData.currentWeather.weatherSummary}</div>
           </div>
