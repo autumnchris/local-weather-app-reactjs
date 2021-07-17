@@ -8,7 +8,7 @@ const HourlyForecast = ({ hour, tempType }) => {
   return (
     <tr>
       <td>{moment(hour.dt * 1000).format('hA')}</td>
-      <td className={`wi wi-owm${hour.weather[0].icon.slice(-1) === 'n' ? '-night' : ''}-${hour.weather[0].id} weather-icon`}></td>
+      <td className={`wi wi-owm${hour.weather[0].icon.slice(-1) === 'n' ? '-night' : ''}-${hour.weather[0].id} weather-icon`} aria-label={hour.weather[0].description}></td>
       <td>{tempType === 'f' ? hourlyF : hourlyC}&deg;</td>
     </tr>
   );
