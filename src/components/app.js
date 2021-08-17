@@ -1,100 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from './loading-spinner';
 import ResultsContainer from './results-container';
 
-class App extends React.Component {
+const App = () => {
+  const options = {
+    timeout: 18000
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      lat: null,
-      lon: null,
-      tempType: JSON.parse(localStorage.getItem('tempType')) || 'f',
-      weatherData: null,
-      isLoading: true,
-      loadingError: false,
-      errorMessage: ''
-    };
-    this.getSuccess = this.getSuccess.bind(this);
-    this.getError = this.getError.bind(this);
-    this.toggleTempType = this.toggleTempType.bind(this);
-  }
+  const [weatherData, setWeatherData] = useState(null);
+  const [loadingStatus, setLoadingStatus] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  fetchCurrentWeatherData() {
-    return axios.get(`https://api.openweathermap.org/data/2.5/weather?&lat=${this.state.lat}&lon=${this.state.lon}&units=imperial&appid=${process.env.API_KEY}`);
-  }
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(getSuccess, getError, options);
+  }, []);
 
-  fetchForecastData() {
-    return axios.get(`https://api.openweathermap.org/data/2.5/onecall?&lat=${this.state.lat}&lon=${this.state.lon}&units=imperial&appid=${process.env.API_KEY}`);
-  }
+  function getSuccess(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
 
-  getSuccess(position) {
-    this.setState({
-      lat: position.coords.latitude,
-      lon: position.coords.longitude
-    });
+    function fetchCurrentWeatherData() {
+      return axios.get(`https://api.openweathermap.org/data/2.5/weather?&lat=${lat}&lon=${lon}&units=imperial&appid=${process.env.API_KEY}`);
+    }
+  
+    function fetchForecastData() {
+      return axios.get(`https://api.openweathermap.org/data/2.5/onecall?&lat=${lat}&lon=${lon}&units=imperial&appid=${process.env.API_KEY}`);
+    }
 
-    axios.all([this.fetchCurrentWeatherData(), this.fetchForecastData()])
-      .then(axios.spread((currentWeatherData, forecastData) => {
-        this.setState({
-          weatherData: {
-            city: currentWeatherData.data.name,
-            currentWeather: {
-              temp: currentWeatherData.data.main.temp,
-              weatherSummary: currentWeatherData.data.weather[0].description,
-              weatherIcon: currentWeatherData.data.weather[0].id,
-              isNight: currentWeatherData.data.weather[0].icon.slice(-1) === 'n' ? true : false
-            },
-            sunriseTime: currentWeatherData.data.sys.sunrise,
-            sunsetTime: currentWeatherData.data.sys.sunset,
-            hourlyForecast: forecastData.data.hourly,
-            dailyForecast: forecastData.data.daily
+    axios.all([fetchCurrentWeatherData(), fetchForecastData()])
+      .then(axios.spread((currentWeatherResponse, forecastResponse) => {
+        const newWeatherData = {
+          city: currentWeatherResponse.data.name,
+          currentWeather: {
+            temp: currentWeatherResponse.data.main.temp,
+            weatherSummary: currentWeatherResponse.data.weather[0].description,
+            weatherIcon: currentWeatherResponse.data.weather[0].id,
+            isNight: currentWeatherResponse.data.weather[0].icon.slice(-1) === 'n' ? true : false
           },
-          isLoading: false,
-          loadingError: false
-        });
+          sunriseTime: currentWeatherResponse.data.sys.sunrise,
+          sunsetTime: currentWeatherResponse.data.sys.sunset,
+          hourlyForecast: forecastResponse.data.hourly,
+          dailyForecast: forecastResponse.data.daily
+        };
+        setWeatherData(newWeatherData);
+        setLoadingStatus(false);
       })).catch(() => {
-        this.setState({
-          isLoading: false,
-          loadingError: true,
-          errorMessage: 'Unable to load current weather at this time.'
-        });
+        setLoadingStatus(false);
+        setErrorMessage('Unable to load current weather at this time.');
       });
   }
 
-  getError(err) {
-    this.setState({
-      isLoading: false,
-      loadingError: true,
-      errorMessage: `${err.message}.`
-    });
+  function getError(err) {
+    setLoadingStatus(false);
+    setErrorMessage(`${err.message}`);
   }
 
-  toggleTempType() {
-    let tempType = this.state.tempType;
-    tempType === 'f' ? tempType = 'c' : tempType = 'f';
-    this.setState({ tempType });
-    localStorage.setItem('tempType', JSON.stringify(tempType));
-  }
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(this.getSuccess, this.getError);
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <header>
-          <h1>View your local weather</h1>
-        </header>
-        <main>
-          {this.state.isLoading ? <LoadingSpinner /> : <ResultsContainer weatherData={this.state.weatherData} tempType={this.state.tempType} toggleTempType={this.toggleTempType} loadingError={this.state.loadingError} errorMessage={this.state.errorMessage} />}
-        </main>
-        <footer>Created by <a href="https://autumnbullard-portfolio.herokuapp.com" target="_blank">Autumn Bullard</a> &copy; {new Date().getFullYear()}</footer>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <header>
+        <h1>View your local weather</h1>
+      </header>
+      <main>
+        {loadingStatus ? <LoadingSpinner /> : <ResultsContainer weatherData={weatherData} errorMessage={errorMessage} />}
+      </main>
+      <footer>Created by <a href="https://autumnbullard-portfolio.herokuapp.com" target="_blank">Autumn Bullard</a> &copy; {new Date().getFullYear()}</footer>
+    </React.Fragment>
+  );
 }
 
 export default App;

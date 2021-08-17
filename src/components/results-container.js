@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
+import ErrorMessage from './error-message';
 import HourlyForecast from './hourly-forecast'
 import DailyForecast from './daily-forecast';
 
-const ResultsContainer = ({ weatherData, tempType, toggleTempType, loadingError, errorMessage }) => {
+const ResultsContainer = ({ weatherData, errorMessage }) => {
+  const [tempType, setTempType] = useState(JSON.parse(localStorage.getItem('tempType')) || 'f');
 
-  if (loadingError) {
-    return <p className="message error-message"><span className="fa fa-exclamation-circle fa-lg fa-fw"></span> {errorMessage}</p>;
+  function toggleTempType() {
+    let currentTempType = tempType;
+    currentTempType === 'f' ? currentTempType = 'c' : currentTempType = 'f';
+    setTempType(currentTempType);
+    localStorage.setItem('tempType', JSON.stringify(currentTempType));
+  }
+
+  if (!weatherData) {
+    return <ErrorMessage errorMessage={errorMessage} />;
   }
   else {
     return (
@@ -21,8 +30,8 @@ const ResultsContainer = ({ weatherData, tempType, toggleTempType, loadingError,
           <table className="sunrise-sunset">
             <thead>
               <tr>
-                <th>Sunrise</th>
-                <th>Sunset</th>
+                <th><span className="wi wi-sunrise wi-fw"></span> Sunrise</th>
+                <th><span className="wi wi-sunset wi-fw"></span> Sunset</th>
               </tr>
             </thead>
             <tbody>
