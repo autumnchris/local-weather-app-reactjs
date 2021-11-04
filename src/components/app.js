@@ -8,7 +8,7 @@ const App = () => {
     timeout: 18000
   };
 
-  const [weatherData, setWeatherData] = useState({});
+  const [weatherData, setWeatherData] = useState(null);
   const [loadingStatus, setLoadingStatus] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -43,12 +43,7 @@ const App = () => {
           hourlyForecast: forecastResponse.data.hourly,
           dailyForecast: forecastResponse.data.daily
         };
-        setWeatherData(prevWeatherData => {
-          return {
-            ...prevWeatherData,
-            ...newWeatherData
-          }
-        });
+        setWeatherData({ ...newWeatherData });
         setLoadingStatus(false);
       })).catch(() => {
         setLoadingStatus(false);
