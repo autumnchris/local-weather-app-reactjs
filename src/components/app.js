@@ -45,7 +45,9 @@ const App = () => {
         };
         setWeatherData({ ...newWeatherData });
         setLoadingStatus(false);
+        setErrorMessage('');
       })).catch(() => {
+        setWeatherData(null);
         setLoadingStatus(false);
         setErrorMessage('Unable to load current weather at this time.');
       });
