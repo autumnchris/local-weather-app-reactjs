@@ -11,8 +11,7 @@ const DailyForecast = ({ day, tempType }) => {
     <tr>
       <td>{moment(day.dt * 1000).format('ddd')}</td>
       <td>{tempType === 'f' ? dailyHighF : dailyHighC}&deg;/{tempType === 'f' ? dailyLowF : dailyLowC}&deg;</td>
-      <td className={`wi wi-owm-${day.weather[0].id} weather-icon`}></td>
-      <td className="weather-description">{day.weather[0].description}</td>
+      <td><span className={`wi wi-owm-${day.weather[0].id} weather-icon`}></span><span className="weather-description"> {day.weather[0].description}</span></td>
     </tr>
   );
 }

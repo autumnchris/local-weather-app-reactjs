@@ -30,8 +30,8 @@ const ResultsContainer = ({ weatherData, errorMessage }) => {
           <table className="sunrise-sunset">
             <thead>
               <tr>
-                <th><span className="wi wi-sunrise wi-fw"></span> Sunrise</th>
-                <th><span className="wi wi-sunset wi-fw"></span> Sunset</th>
+                <th scope="col"><span className="wi wi-sunrise wi-fw"></span> Sunrise</th>
+                <th scope="col"><span className="wi wi-sunset wi-fw"></span> Sunset</th>
               </tr>
             </thead>
             <tbody>
@@ -50,9 +50,9 @@ const ResultsContainer = ({ weatherData, errorMessage }) => {
           <table className="daily-forecast">
             <thead>
               <tr>
-                <th>Day</th>
-                <th>High/Low</th>
-                <th colSpan="2">Weather</th>
+                <th scope="col">Day</th>
+                <th scope="col">High/Low</th>
+                <th scope="col">Weather</th>
               </tr>
             </thead>
             <tbody>{weatherData.dailyForecast.slice(0, 5).map((day, index) => <DailyForecast key={index} day={day} tempType={tempType} />)}</tbody>
