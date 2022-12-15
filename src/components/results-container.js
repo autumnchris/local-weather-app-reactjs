@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import ErrorMessage from './error-message';
-import HourlyForecast from './hourly-forecast'
-import DailyForecast from './daily-forecast';
+import ErrorMessage from './Error-Message';
+import HourlyForecast from './Hourly-Forecast'
+import DailyForecast from './Daily-Forecast';
 
 const ResultsContainer = ({ weatherData, errorMessage }) => {
   const [tempType, setTempType] = useState(JSON.parse(localStorage.getItem('tempType')) || 'f');

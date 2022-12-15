@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LoadingSpinner from './loading-spinner';
-import ResultsContainer from './results-container';
+import LoadingSpinner from './Loading-Spinner';
+import ResultsContainer from './Results-Container';
 
 const App = () => {
   const options = {
