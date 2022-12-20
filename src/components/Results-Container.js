@@ -24,14 +24,14 @@ const ResultsContainer = ({ weatherData, errorMessage }) => {
           <div className="location">{weatherData.city}</div>
           <div className="current-weather">
             <div className="temp">{tempType === 'f' ? Math.round(weatherData.currentWeather.temp) : Math.round((weatherData.currentWeather.temp - 32) * (5/9))}&deg;{tempType.toUpperCase()}</div>
-            <div className={`wi wi-owm${weatherData.currentWeather.isNight ? '-night' : ''}-${weatherData.currentWeather.weatherIcon} weather-icon`}></div>
+            <div className={`wi wi-owm${weatherData.currentWeather.isNight ? '-night' : ''}-${weatherData.currentWeather.weatherIcon} weather-icon`} aria-hidden="true"></div>
             <div className="weather-summary weather-description">{weatherData.currentWeather.weatherSummary}</div>
           </div>
           <table className="sunrise-sunset">
             <thead>
               <tr>
-                <th scope="col"><span className="wi wi-sunrise wi-fw"></span> Sunrise</th>
-                <th scope="col"><span className="wi wi-sunset wi-fw"></span> Sunset</th>
+                <th scope="col"><span className="wi wi-sunrise wi-fw" aria-hidden="true"></span> Sunrise</th>
+                <th scope="col"><span className="wi wi-sunset wi-fw" aria-hidden="true"></span> Sunset</th>
               </tr>
             </thead>
             <tbody>
