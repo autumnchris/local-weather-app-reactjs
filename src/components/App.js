@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
 import ResultsContainer from './ResultsContainer';
+import ErrorMessage from './ErrorMessage';
 
 const App = () => {
   const options = {
@@ -69,7 +70,7 @@ const App = () => {
         <h1>View your local weather</h1>
       </header>
       <main>
-        {loadingStatus ? <LoadingSpinner /> : <ResultsContainer weatherData={weatherData} errorMessage={errorMessage} />}
+        {loadingStatus && !weatherData ? <LoadingSpinner /> : weatherData ? <ResultsContainer weatherData={weatherData} /> : <ErrorMessage errorMessage={errorMessage} />}
       </main>
       <footer>Created by <a href="https://autumnchris.github.io/portfolio" target="_blank">Autumn Bullard</a> &copy; {new Date().getFullYear()}</footer>
     </React.Fragment>
