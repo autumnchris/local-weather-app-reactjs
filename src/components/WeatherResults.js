@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import moment from 'moment';
-import HourlyForecast from './HourlyForecast'
+import SunriseSunsetTimes from './SunriseSunsetTimes';
+import SwitchButton from './SwitchButton';
+import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForecast';
+import getTempType from '../utils/getTempType';
 
-const ResultsContainer = ({ weatherData, errorMessage }) => {
-  const [tempType, setTempType] = useState(JSON.parse(localStorage.getItem('tempType')) || 'f');
-
-  function toggleTempType() {
-    let currentTempType = tempType;
-    currentTempType === 'f' ? currentTempType = 'c' : currentTempType = 'f';
-    setTempType(currentTempType);
-    localStorage.setItem('tempType', JSON.stringify(currentTempType));
-  }
+const WeatherResults = ({ weatherData }) => {
+  const [tempType, setTempType] = useState(getTempType());
   
   return (
     <div className="weather-content">
@@ -22,21 +17,8 @@ const ResultsContainer = ({ weatherData, errorMessage }) => {
           <div className={`wi wi-owm${weatherData.currentWeather.isNight ? '-night' : ''}-${weatherData.currentWeather.weatherIcon} weather-icon`} aria-hidden="true"></div>
           <div className="weather-summary weather-description">{weatherData.currentWeather.weatherSummary}</div>
         </div>
-        <table className="sunrise-sunset">
-          <thead>
-            <tr>
-              <th scope="col"><span className="wi wi-sunrise wi-fw" aria-hidden="true"></span> Sunrise</th>
-              <th scope="col"><span className="wi wi-sunset wi-fw" aria-hidden="true"></span> Sunset</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{moment(weatherData.sunriseTime * 1000).format('h:mm A')}</td>
-              <td>{moment(weatherData.sunsetTime * 1000).format('h:mm A')}</td>
-            </tr>
-          </tbody>
-        </table>
-        <button type="button" className={`button switch-button ${tempType}`} onClick={(event) => toggleTempType(event)}>&deg;{tempType.toUpperCase()}</button>
+        <SunriseSunsetTimes weatherData={weatherData} />
+        <SwitchButton tempType={tempType} setTempType={setTempType} />
       </div>
       <div className="col">
         <table className="hourly-forecast">
@@ -57,4 +39,4 @@ const ResultsContainer = ({ weatherData, errorMessage }) => {
   );
 }
 
-export default ResultsContainer;
+export default WeatherResults;

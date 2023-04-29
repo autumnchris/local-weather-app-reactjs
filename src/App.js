@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import LoadingSpinner from './LoadingSpinner';
-import ResultsContainer from './ResultsContainer';
-import ErrorMessage from './ErrorMessage';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import LoadingSpinner from './components/LoadingSpinner';
+import WeatherResults from './components/WeatherResults';
+import ErrorMessage from './components/ErrorMessage';
+import fetchCurrentWeatherData from './utils/fetchCurrentWeatherData';
+import fetchForecastData from './utils/fetchForecastData';
+import getGeolocation from './utils/getGeolocation';
 
 const App = () => {
-  const options = {
-    timeout: 18000
-  };
-
   const [weatherData, setWeatherData] = useState(null);
   const [loadingStatus, setLoadingStatus] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(getSuccess, getError, options);
+    getGeolocation(getGeolocationSuccess, getGeolocationError);
   }, []);
 
-  function getSuccess(position) {
+  function getGeolocationSuccess(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    function fetchCurrentWeatherData() {
-      return axios.get(`https://api.openweathermap.org/data/2.5/weather?&lat=${lat}&lon=${lon}&units=imperial&appid=${process.env.API_KEY}`);
-    }
-  
-    function fetchForecastData() {
-      return axios.get(`https://api.openweathermap.org/data/2.5/onecall?&lat=${lat}&lon=${lon}&units=imperial&appid=${process.env.API_KEY}`);
-    }
-
     Promise.all([
-      fetchCurrentWeatherData(),
-      fetchForecastData()
+      fetchCurrentWeatherData(lat, lon),
+      fetchForecastData(lat, lon)
     ]).then(([
       currentWeatherResponse,
       forecastResponse
@@ -59,20 +51,18 @@ const App = () => {
       });
   }
 
-  function getError(err) {
+  function getGeolocationError(err) {
     setLoadingStatus(false);
     setErrorMessage(`${err.message}`);
   }
 
   return (
     <React.Fragment>
-      <header>
-        <h1>View your local weather</h1>
-      </header>
+      <Header />
       <main>
-        {loadingStatus && !weatherData ? <LoadingSpinner /> : weatherData ? <ResultsContainer weatherData={weatherData} /> : <ErrorMessage errorMessage={errorMessage} />}
+        {loadingStatus && !weatherData ? <LoadingSpinner /> : weatherData ? <WeatherResults weatherData={weatherData} /> : <ErrorMessage errorMessage={errorMessage} />}
       </main>
-      <footer>Created by <a href="https://autumnchris.github.io/portfolio" target="_blank">Autumn Bullard</a> &copy; {new Date().getFullYear()}</footer>
+      <Footer />
     </React.Fragment>
   );
 }
