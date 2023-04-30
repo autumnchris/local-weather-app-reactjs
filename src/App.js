@@ -6,7 +6,6 @@ import WeatherResults from './components/WeatherResults';
 import ErrorMessage from './components/ErrorMessage';
 import fetchCurrentWeatherData from './utils/fetchCurrentWeatherData';
 import fetchForecastData from './utils/fetchForecastData';
-import getGeolocation from './utils/getGeolocation';
 
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -14,8 +13,16 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    getGeolocation(getGeolocationSuccess, getGeolocationError);
+    getGeolocation();
   }, []);
+
+  function getGeolocation() {
+    const options = {
+      timeout: 18000
+    };
+
+    navigator.geolocation.getCurrentPosition(getGeolocationSuccess, getGeolocationError, options);
+  }
 
   function getGeolocationSuccess(position) {
     const lat = position.coords.latitude;
