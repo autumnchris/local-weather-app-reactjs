@@ -49,6 +49,9 @@
   &:hover {
     color: $yellow;
   }
+  .icon {
+    pointer-events: none;
+  }
 }
 
 .results-view .button,
@@ -63,6 +66,9 @@
   width: 30px;
   &:hover {
     color: $yellow;
+  }
+  .icon {
+    pointer-events: none;
   }
 }
 

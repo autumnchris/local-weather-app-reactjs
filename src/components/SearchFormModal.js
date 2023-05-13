@@ -10,7 +10,7 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
 
   useEffect(() => {
 
-    if (searchInput) {
+    if (searchInput.trim()) {
       const timer = setTimeout(() => {
         fetchCitySearchResults();
       }, 600);
@@ -59,7 +59,7 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
         <div className="modal-header">
           <div className="button-group">
             <button type="button" className="button close-button" onClick={() => setModalVisibility(false)} aria-label="Close Search Form" title="Close Search Form">
-              <span className="material-icons menu-toggle-icon">close</span>
+              <span className="material-icons icon">close</span>
             </button>
           </div>
         </div>

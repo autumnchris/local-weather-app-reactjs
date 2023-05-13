@@ -65,6 +65,9 @@ input {
           &:hover {
             color: $yellow;
           }
+          .icon {
+            pointer-events: none;
+          }
         }
       }
     }
@@ -102,6 +105,9 @@ input {
         }
         &:last-child {
           margin-bottom: 0;
+        }
+        .result-text {
+          pointer-events: none;
         }
       }
     }
