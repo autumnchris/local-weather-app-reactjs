@@ -9,11 +9,15 @@ Inspired by the [Weather App assignment](https://www.theodinproject.com/lessons/
 ## Built With
 * [React.js](https://reactjs.org)
 * [Sass](http://sass-lang.com)
+* JavaScript
+* CSS3
+* HTML5
 * Geolocation API
 * [OpenWeatherMap API](https://openweathermap.org)
 * [GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)
 * AJAX
 * [Axios](https://axios-http.com)
+* [Node.js](https://nodejs.org/en)
 * [Webpack](https://webpack.js.org)
 * [Moment.js](https://momentjs.com)
 * [Weather Icons](https://erikflowers.github.io/weather-icons)
