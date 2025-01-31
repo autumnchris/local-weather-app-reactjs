@@ -68,17 +68,17 @@ const App = () => {
     ]) => {
       const newWeatherData = {
         city: currentWeatherResponse.data.name,
-        timezoneOffset: Math.floor(currentWeatherResponse.data.timezone / 60),
+        timezoneOffset: Math.floor(forecastResponse.data.timezone_offset / 60),
         currentWeather: {
-          temp: currentWeatherResponse.data.main.temp,
-          weatherSummary: currentWeatherResponse.data.weather[0].description,
-          weatherIcon: currentWeatherResponse.data.weather[0].id,
-          feelsLikeTemp: currentWeatherResponse.data.main.feels_like,
-          humidity: currentWeatherResponse.data.main.humidity,
+          temp: forecastResponse.data.current.temp,
+          weatherSummary: forecastResponse.data.current.weather[0].description,
+          weatherIcon: forecastResponse.data.current.weather[0].id,
+          feelsLikeTemp: forecastResponse.data.current.feels_like,
+          humidity: forecastResponse.data.current.humidity,
           uvIndex: forecastResponse.data.current.uvi,
-          sunriseTime: currentWeatherResponse.data.sys.sunrise,
-          sunsetTime: currentWeatherResponse.data.sys.sunset,
-          isNight: currentWeatherResponse.data.weather[0].icon.slice(-1) === 'n' ? true : false
+          sunriseTime: forecastResponse.data.current.sunrise,
+          sunsetTime: forecastResponse.data.current.sunset,
+          isNight: forecastResponse.data.current.weather[0].icon.slice(-1) === 'n' ? true : false
         },
         hourlyForecast: forecastResponse.data.hourly,
         dailyForecast: forecastResponse.data.daily
