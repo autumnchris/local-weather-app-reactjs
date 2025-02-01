@@ -13,7 +13,7 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
     if (searchInput.trim()) {
       const timer = setTimeout(() => {
         fetchCitySearchResults();
-      }, 600);
+      }, 1300);
       return () => clearTimeout(timer);
     }
     else {
