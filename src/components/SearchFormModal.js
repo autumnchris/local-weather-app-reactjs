@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LoadingSpinner from './LoadingSpinner';
 import CitySearchResult from './CitySearchResult';
 import ErrorMessage from './ErrorMessage';
 
 const SearchForm = ({ setModalVisibility, selectCity }) => {
   const [searchInput, setSearchInput] = useState('');
+  const [loadingStatus, setLoadingStatus] = useState(false);
   const [citySearchResults, setCitySearchResults] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
 
     if (searchInput.trim()) {
+      setLoadingStatus(true);
       const timer = setTimeout(() => {
         fetchCitySearchResults();
       }, 1300);
@@ -23,27 +26,19 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
   }, [searchInput]);
 
   function fetchCitySearchResults() {
-    const options = {
-      method: 'GET',
-      url: `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?minPopulation=20000&namePrefix=${searchInput}`,
-      headers: {
-        'X-RapidAPI-Key': process.env.GEO_DB_API_KEY,
-        'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
-      }
-    };
+    axios.get(`https://autumnchris-local-weather-backend.onrender.com/cities?searchInput=${searchInput}`).then(response => {
+      setLoadingStatus(false);
 
-    axios.request(options)
-    .then(response => {
-
-      if (response.data.data.length === 0 && searchInput) {
+      if (response.data.cities.data.length === 0 && searchInput) {
         setCitySearchResults([]);
         setErrorMessage('No cities match your search.');
       }
       else {
-        setCitySearchResults(response.data.data);
+        setCitySearchResults(response.data.cities.data);
         setErrorMessage('');
       }
     }).catch(() => {
+      setLoadingStatus(false);
       setCitySearchResults([]);
       setErrorMessage('Unable to load city search results at this time.');
     });
@@ -70,7 +65,7 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
               <input type="text" className="search-input" aria-label="Search by city..." placeholder="Search by city..." onChange={(event) => handleChange(event)} value={searchInput} required autoFocus />
             </div>
           </form>
-          {errorMessage ? <ErrorMessage errorMessage={errorMessage} /> : searchInput ? <div className="search-options">{citySearchResults.sort((a, b) => b.population - a.population).map(city => <CitySearchResult key={city.id} city={city} selectCity={selectCity} />)}</div> : null}
+          {loadingStatus ? <LoadingSpinner /> : errorMessage ? <ErrorMessage errorMessage={errorMessage} /> : searchInput ? <div className="search-options">{citySearchResults.sort((a, b) => b.population - a.population).map(city => <CitySearchResult key={city.id} city={city} selectCity={selectCity} />)}</div> : null}
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PageLoadContent from './components/PageLoadContent';
@@ -6,8 +7,6 @@ import SearchFormModal from './components/SearchFormModal';
 import LoadingSpinner from './components/LoadingSpinner';
 import WeatherResults from './components/WeatherResults';
 import ErrorMessage from './components/ErrorMessage';
-import fetchCurrentWeatherData from './utils/fetchCurrentWeatherData';
-import fetchForecastData from './utils/fetchForecastData';
 
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -59,29 +58,23 @@ const App = () => {
   }
 
   function fetchWeatherResults(lat, lon) {
-    Promise.all([
-      fetchCurrentWeatherData(lat, lon),
-      fetchForecastData(lat, lon)
-    ]).then(([
-      currentWeatherResponse,
-      forecastResponse
-    ]) => {
+    axios.get(`https://autumnchris-local-weather-backend.onrender.com/weather?lat=${lat}&lon=${lon}`).then(response => {
       const newWeatherData = {
-        city: currentWeatherResponse.data.name,
-        timezoneOffset: Math.floor(forecastResponse.data.timezone_offset / 60),
+        city: response.data.currentWeather.name,
+        timezoneOffset: Math.floor(response.data.forecast.timezone_offset / 60),
         currentWeather: {
-          temp: forecastResponse.data.current.temp,
-          weatherSummary: forecastResponse.data.current.weather[0].description,
-          weatherIcon: forecastResponse.data.current.weather[0].id,
-          feelsLikeTemp: forecastResponse.data.current.feels_like,
-          humidity: forecastResponse.data.current.humidity,
-          uvIndex: forecastResponse.data.current.uvi,
-          sunriseTime: forecastResponse.data.current.sunrise,
-          sunsetTime: forecastResponse.data.current.sunset,
-          isNight: forecastResponse.data.current.weather[0].icon.slice(-1) === 'n' ? true : false
+          temp: response.data.forecast.current.temp,
+          weatherSummary: response.data.forecast.current.weather[0].description,
+          weatherIcon: response.data.forecast.current.weather[0].id,
+          feelsLikeTemp: response.data.forecast.current.feels_like,
+          humidity: response.data.forecast.current.humidity,
+          uvIndex: response.data.forecast.current.uvi,
+          sunriseTime: response.data.forecast.current.sunrise,
+          sunsetTime: response.data.forecast.current.sunset,
+          isNight: response.data.forecast.current.weather[0].icon.slice(-1) === 'n' ? true : false
         },
-        hourlyForecast: forecastResponse.data.hourly,
-        dailyForecast: forecastResponse.data.daily
+        hourlyForecast: response.data.forecast.hourly,
+        dailyForecast: response.data.forecast.daily
       };
       setWeatherData({ ...newWeatherData });
       setLoadingStatus(false);
