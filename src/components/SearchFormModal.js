@@ -11,6 +11,7 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
+    setLoadingStatus(false);
 
     if (searchInput.trim()) {
       setLoadingStatus(true);
