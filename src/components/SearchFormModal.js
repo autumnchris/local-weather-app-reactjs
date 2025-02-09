@@ -63,7 +63,7 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
           <form role="search" className="search-form" onSubmit={(event) => { event.preventDefault(); }}>
             <div className="form-group">
               <span className="fas fa-search fa-sm search-icon" aria-hidden="true"></span>
-              <input type="text" className="search-input" aria-label="Search by city..." placeholder="Search by city..." onChange={(event) => handleChange(event)} value={searchInput} required autoFocus />
+              <input type="text" name="citySearch" className="search-input" aria-label="Search by city..." placeholder="Search by city..." onChange={(event) => handleChange(event)} value={searchInput}  id="city-search" autoComplete="off" required autoFocus />
             </div>
           </form>
           {loadingStatus ? <LoadingSpinner /> : errorMessage ? <ErrorMessage errorMessage={errorMessage} /> : searchInput ? <div className="search-options">{citySearchResults.sort((a, b) => b.population - a.population).map(city => <CitySearchResult key={city.id} city={city} selectCity={selectCity} />)}</div> : null}
