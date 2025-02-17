@@ -55,14 +55,14 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
         <div className="modal-header">
           <div className="button-group">
             <button type="button" className="button close-button" onClick={() => setModalVisibility(false)} aria-label="Close Search Form" title="Close Search Form">
-              <span className="material-icons icon">close</span>
+              <span className="fa-solid fa-xmark fa-lg icon"></span>
             </button>
           </div>
         </div>
         <div className="modal-body">
           <form role="search" className="search-form" onSubmit={(event) => { event.preventDefault(); }}>
             <div className="form-group">
-              <span className="fas fa-search fa-sm search-icon" aria-hidden="true"></span>
+              <span className="fa-solid fa-magnifying-glass fa-sm search-icon" aria-hidden="true"></span>
               <input type="text" name="citySearch" className="search-input" aria-label="Search by city..." placeholder="Search by city..." onChange={(event) => handleChange(event)} value={searchInput}  id="city-search" autoComplete="off" required autoFocus />
             </div>
           </form>
