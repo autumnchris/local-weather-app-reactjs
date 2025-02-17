@@ -10,7 +10,7 @@ const SwitchButton = ({ tempType, setTempType }) => {
     getTempType(currentTempType);
   }
 
-  return <button type="button" className={`button switch-button ${tempType}`} onClick={(event) => toggleTempType(event)}>&deg;{tempType.toUpperCase()}</button>;
+  return <button type="button" className={`button switch-button ${tempType}`} onClick={(event) => toggleTempType(event)} aria-label={`switch to ${tempType === 'f' ? 'celsius' : 'fahrenheit'}`}>&deg;{tempType.toUpperCase()}</button>;
 }
 
 export default SwitchButton;
