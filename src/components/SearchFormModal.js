@@ -60,7 +60,7 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
           </div>
         </div>
         <div className="modal-body">
-          <form role="search" className="search-form" onSubmit={(event) => { event.preventDefault(); }}>
+          <form role="search" className="search-form" onSubmit={(event) => { event.preventDefault(); }} noValidate>
             <div className="form-group">
               <span className="fa-solid fa-magnifying-glass fa-sm search-icon" aria-hidden="true"></span>
               <input type="text" name="citySearch" className="search-input" aria-label="Search by city..." placeholder="Search by city..." onChange={(event) => handleChange(event)} value={searchInput}  id="city-search" autoComplete="off" required autoFocus />
