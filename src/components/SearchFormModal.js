@@ -27,7 +27,7 @@ const SearchForm = ({ setModalVisibility, selectCity }) => {
   }, [searchInput]);
 
   function fetchCitySearchResults() {
-    axios.get(`https://autumnchris-local-weather-backend.onrender.com/cities?searchInput=${searchInput}`).then(response => {
+    axios.get(`https://autumnchris-local-weather-backend-api.onrender.com/api/cities?searchInput=${searchInput}`).then(response => {
       setLoadingStatus(false);
 
       if (response.data.cities.data.length === 0 && searchInput) {

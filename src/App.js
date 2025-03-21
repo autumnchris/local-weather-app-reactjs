@@ -58,7 +58,7 @@ const App = () => {
   }
 
   function fetchWeatherResults(lat, lon) {
-    axios.get(`https://autumnchris-local-weather-backend.onrender.com/weather?lat=${lat}&lon=${lon}`).then(response => {
+    axios.get(`https://autumnchris-local-weather-backend-api.onrender.com/api/weather?lat=${lat}&lon=${lon}`).then(response => {
       const newWeatherData = {
         city: response.data.currentWeather.name,
         timezoneOffset: Math.floor(response.data.forecast.timezone_offset / 60),
